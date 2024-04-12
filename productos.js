@@ -43,13 +43,6 @@ class Producto{
     }
 }
 
-//Creación de productos
-// let producto1 = new Producto("Remera Bob Esponja", 15000);
-// let producto2 = new Producto("Zapatillas Los Padrinos Magicos", 30000);
-// let producto3 = new Producto("Cuaderno Ben 10", 4500);
-// let producto4 = new Producto("Agenda KND Los Chicos del Barrio", 11000);
-// let producto5 = new Producto("Pelota Phineas y Ferb", 8000);
-
 //Se crea una colección de productos
 const listaProductos = [
     new Producto(1,"Ropa", "Remera Bob Esponja", 15000),
