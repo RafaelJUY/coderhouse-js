@@ -10,8 +10,12 @@ do{
 
         let productoEncontrado = listaProductos.find(prod => prod.id === idProducto);
 
+        //Se verifica la busqueda exitosa de un producto
         if (productoEncontrado !== undefined){
+
+            //Se pide confirmacion para agregarlo al carrito
             let agregar = prompt("El producto es el siguiente: \n\n" + productoEncontrado + "\n\nDesea agregarlo al carrito (y/n)?");
+
             if (agregar.toLowerCase() === "y"){
                 agregarAlCarrito(productoEncontrado);
             }
@@ -19,16 +23,20 @@ do{
             alert("El producto no existe")
         }
     } else if (opcion.toUpperCase() === "C"){
+        //Se muestras las categorias existentes
         let categoria = prompt("Las categorias son las siguientes: \n" + obtenerCategorias())
 
+        //Se busca productos por categorias
         let productosEntontrados = [];
         productosEntontrados = listaProductos.filter(prod => prod.categoria.toUpperCase() === categoria.toUpperCase());
 
-        console.log(productosEntontrados)
+        // Si comprueba si se encontraron productos
         if (productosEntontrados.length > 0){
+            // Se muestran los productos entontrados
             for (let i = 0; i < productosEntontrados.length; i++) {
                 console.log(productosEntontrados[i].toString());
             }
+
             let agregar= prompt("Desea agregar un producto (y/n)");
             if( agregar.toLowerCase() === "y"){
                 let idProducto= parseInt(prompt("Ingrese el ID del producto: "));
