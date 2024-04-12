@@ -1,54 +1,73 @@
-// Para crear objetos de tipo Producto
-function Producto(nombre, precio){
-    this.nombre = nombre;
-    this.precio = precio;
-}
-
-//Creación de productos
-let producto1 = new Producto("Remera Bob Esponja", 15000);
-let producto2 = new Producto("Zapatillas Los Padrinos Magicos", 30000);
-let producto3 = new Producto("Cuaderno Ben 10", 4500);
-let producto4 = new Producto("Agenda KND Los Chicos del Barrio", 11000);
-let producto5 = new Producto("Pelota Phineas y Ferb", 8000);
-
-//Se crea una colección de productos
-let listaProductos = [producto1, producto2, producto3, producto4, producto5];
-
-// Función para crear el menú de opciones según la colección de productos
-function crearMenuOpciones(productos){
-    let menuOpciones = "Cuenta con las siguientes opciones:\n" +
-        "(0) Salir\n";
-
-    // Se itera la colección de productos para crear las opciones necesarias
-    for (let i = 0; i < productos.length; i++) {
-        let opcion = i+1;   // En producto en el índice n será la opción n+1 del menú.
-        menuOpciones = menuOpciones + "("+ opcion +") " + productos[i].nombre + " - ARS " + productos[i].precio + "\n";
-    }
-    return menuOpciones;
-}
-
-// Función para pedir al usuario ingresar opción.
-function pedirOpcion(productos) {
-    return parseInt(prompt(crearMenuOpciones(productos) + "\nIngrese una opción: "));
-}
-
 let acumMonto = 0;      // Acumula el monto total
 let opcion;     // Opción que ingrasa el usuario
+const carrito = [];
 
 do{
     opcion = pedirOpcion(listaProductos);
 
-    if (opcion !== 0){
-        if (opcion > 0 && opcion <= listaProductos.length){
-            let indice = opcion - 1;    //El producto (n) en el menú corresponde al indice (n-1) de la colección de productos.
+    if (opcion.toUpperCase() === "B"){
+        let idProducto= parseInt(prompt("Ingrese el ID del producto: "));
 
-            alert("Agregado al carrito! " + listaProductos[indice].nombre + " - ARS " +listaProductos[indice].precio);
-            acumMonto += listaProductos[indice].precio;
-        }else {
-            alert("El producto ingresado no existe")
+        let productoEncontrado = listaProductos.find(prod => prod.id === idProducto);
+
+        if (productoEncontrado !== undefined){
+            let agregar = prompt("El producto es el siguiente: \n\n" + productoEncontrado + "\n\nDesea agregarlo al carrito (y/n)?");
+            if (agregar.toLowerCase() === "y"){
+                agregarAlCarrito(productoEncontrado);
+            }
+        }else{
+            alert("El producto no existe")
+        }
+    } else if (opcion.toUpperCase() === "C"){
+        let categoria = prompt("Las categorias son las siguientes: \n" + obtenerCategorias())
+
+        let productosEntontrados = [];
+        productosEntontrados = listaProductos.filter(prod => prod.categoria.toUpperCase() === categoria.toUpperCase());
+
+        console.log(productosEntontrados)
+        if (productosEntontrados.length > 0){
+            for (let i = 0; i < productosEntontrados.length; i++) {
+                console.log(productosEntontrados[i].toString());
+            }
+            let agregar= prompt("Desea agregar un producto (y/n)");
+            if( agregar.toLowerCase() === "y"){
+                let idProducto= parseInt(prompt("Ingrese el ID del producto: "));
+
+                let productoEncontrado = listaProductos.find(prod => prod.id === idProducto);
+
+                if (productoEncontrado !== undefined){
+                    agregarAlCarrito(productoEncontrado);
+                }else{
+                    alert("El producto no existe")
+                }
+            }
+        }else{
+            console.log("No se encontraron productos de esa categoria")
+        }
+
+    }else if(opcion.toUpperCase() === "T"){
+        for (let i = 0; i < listaProductos.length; i++) {
+            console.log("Listando todos los productos! ")
+            console.log(listaProductos[i].toString());
+        }
+        let agregar= prompt("Desea agregar un producto (y/n)");
+        if( agregar.toLowerCase() === "y"){
+            let idProducto= parseInt(prompt("Ingrese el ID del producto: "));
+
+            let productoEncontrado = listaProductos.find(prod => prod.id === idProducto);
+
+            if (productoEncontrado !== undefined){
+                agregarAlCarrito(productoEncontrado);
+            }else{
+                alert("El producto no existe")
+            }
         }
     }
-    alert("Total Actual: ARS " + acumMonto);
-}while (opcion !== 0);
+}while (opcion.toUpperCase() !== "S");
 
+console.log("Sucarrito contiene: ")
+for (let i = 0; i < carrito.length; i++) {
+    console.log(carrito[i].toString());
+    acumMonto += carrito[i].precio;
+}
 alert("Monto Final: ARS " + acumMonto);
